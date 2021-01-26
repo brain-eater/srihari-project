@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { User } = require("./setup/user");
-const {postToUserQueue} = require("./setup/rabbit-mq");
+const { postToUserQueue } = require("./setup/rabbit-mq");
 
 const app = express();
 const port = 3000;
@@ -14,9 +14,10 @@ app.get('/', (req, res) => {
 
 app.post('/record', (req, res) => {
     const user = new User({
-        name:req.body.name,
-        email:req.body.email
+        name: req.body.name,
+        email: req.body.email
     });
+
     user.save(function(err,result){
         if(err){
             res.json(err);

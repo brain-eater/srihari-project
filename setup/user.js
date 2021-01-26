@@ -1,6 +1,6 @@
 const db = require("./mongodb-client");
 
-const userSchema= db.Schema({
+const userSchema = db.Schema({
     name:{type:String,required:true},
     email:{type:String,required:true}
 });
