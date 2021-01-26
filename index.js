@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { User } = require("./user");
+const { User } = require("./setup/user");
+const {postToUserQueue} = require("./setup/rabbit-mq");
 
 const app = express();
 const port = 3000;
@@ -21,17 +22,18 @@ app.post('/record', (req, res) => {
             res.json(err);
         }
         else{
+            postToUserQueue(result._id);
             res.json(result._id);
         }
     });
 })
 
 app.get('/record', (req, res) => {
-    User.findById(req.query.id, function (err, users) {
+    User.findById(req.query.id, function (err, user) {
         if (err) {
             res.json(err);
         }
-        res.json(users);
+        res.json({name:user.name, email:user.email});
     });
 })
 
